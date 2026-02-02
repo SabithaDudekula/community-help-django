@@ -1,0 +1,67 @@
+{% extends 'help_requests/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">My Dashboard</h2>
+
+
+<!-- My Requests -->
+<h4>📌 My Requests</h4>
+
+{% for req in my_requests %}
+
+<div class="card mb-2 p-3">
+
+    <b>{{ req.title }}</b>
+    <br>
+    Status: {{ req.status }}
+
+</div>
+
+{% empty %}
+<p>No requests posted yet.</p>
+{% endfor %}
+
+
+<hr>
+
+
+<!-- Helping Requests -->
+<h4>🤝 Requests I'm Helping</h4>
+
+{% for req in helping_requests %}
+
+<div class="card mb-2 p-3">
+
+    <b>{{ req.title }}</b>
+    <br>
+    Status: {{ req.status }}
+
+</div>
+
+{% empty %}
+<p>Not helping anyone yet.</p>
+{% endfor %}
+
+
+<hr>
+
+
+<!-- Resolved Requests -->
+<h4>✅ Resolved Requests</h4>
+
+{% for req in resolved_requests %}
+
+<div class="card mb-2 p-3 bg-light">
+
+    <b>{{ req.title }}</b>
+    <br>
+    Status: {{ req.status }}
+
+</div>
+
+{% empty %}
+<p>No resolved requests yet.</p>
+{% endfor %}
+
+{% endblock %}

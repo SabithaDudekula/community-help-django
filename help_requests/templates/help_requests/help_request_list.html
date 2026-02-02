@@ -1,0 +1,121 @@
+{% extends 'help_requests/base.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="p-5 mb-4 bg-white rounded-3 shadow">
+    <div class="container-fluid py-3">
+
+        <h1 class="display-6 fw-bold text-primary">
+            🤝 Community Help Platform
+        </h1>
+
+        <p class="col-md-8 fs-5 text-muted">
+            Connect with people who need help and make a difference today.
+        </p>
+
+        {% if user.is_authenticated %}
+        <a href="/add/" class="btn btn-warning btn-lg">
+            Post a Request
+        </a>
+        {% else %}
+        <a href="/register/" class="btn btn-success btn-lg">
+            Join Now
+        </a>
+        {% endif %}
+
+    </div>
+</div>
+
+
+<h3 class="mb-4">📌 Active Help Requests</h3>
+
+
+{% for req in requests %}
+
+<div class="card mb-3 shadow-sm border-0">
+
+    <div class="card-body">
+
+        <div class="d-flex justify-content-between">
+
+            <h5 class="fw-bold text-dark">
+                {{ req.title }}
+            </h5>
+
+            <span class="badge bg-info">
+                {{ req.category }}
+            </span>
+
+        </div>
+
+
+        <p class="text-muted mt-2">
+            {{ req.description }}
+        </p>
+
+
+        <p>
+            <span class="badge bg-secondary">
+                {{ req.status }}
+            </span>
+        </p>
+
+
+        <p class="small text-muted">
+            👤 {{ req.user.username }}
+            |
+            📍 {{ req.location }}
+            |
+            🕒 {{ req.created_at }}
+        </p>
+
+
+        {% if req.helper %}
+        <p class="text-success small">
+            🤝 Helping: {{ req.helper.username }}
+        </p>
+        {% endif %}
+
+
+        <!-- Action Buttons -->
+        <div class="mt-3">
+
+        {% if user.is_authenticated %}
+
+            {% if req.status == "Open" and req.user != user %}
+
+                <a href="/help/{{ req.id }}/"
+                   class="btn btn-sm btn-success">
+                   I Can Help
+                </a>
+
+            {% endif %}
+
+
+            {% if req.user == user and req.status == "In Progress" %}
+
+                <a href="/resolve/{{ req.id }}/"
+                   class="btn btn-sm btn-primary">
+                   Mark Resolved
+                </a>
+
+            {% endif %}
+
+        {% endif %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="alert alert-warning">
+    No help requests available.
+</div>
+
+{% endfor %}
+
+{% endblock %}

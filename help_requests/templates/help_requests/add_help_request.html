@@ -1,0 +1,23 @@
+{% extends 'help_requests/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Post New Help Request</h2>
+
+<div class="card shadow p-4">
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit" class="btn btn-primary">
+        Submit Request
+    </button>
+
+</form>
+
+</div>
+
+{% endblock %}
